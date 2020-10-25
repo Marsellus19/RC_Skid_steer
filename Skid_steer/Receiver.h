@@ -2,7 +2,7 @@
 #ifndef receiver_h
 #define receiver_h
 
-#include <PinChangeInterrupt.h>
+#include <PinChangeInt.h>
 
 
 
@@ -39,31 +39,27 @@ void attach_ppm(uint8_t pin, uint8_t channels){
     number_of_channels = channels;
     pinMode(ppm_pin, INPUT);
     attachPinChangeInterrupt(ppm_pin, ppm_isr, FALLING);
-    pwm_val = new uint16_t[++channels];
+    pwm_val = new volatile uint16_t[++channels];
 }
 
 
 class Ppm{
+    volatile uint16_t *channel_val;
 public:
-    volatile uint16_t *channel_pwm;
-    Ppm(){
-        channel_pwm = pwm_val;
+    void attach(uint8_t pin, uint8_t channels){
+        attach_ppm(pin, channels);
+        channel_val = pwm_val;
     }
 
 
-    uint16_t channel(uint8_t channel_no){
-        return channel_pwm[channel_no];
+    uint16_t channel(uint8_t channel_number){
+        return channel_val[channel_number];
     }
 
 
     void print_val(){
-        for(uint8_t i= 1 ; i <= number_of_channels ; i++) Serial.print("\tch" + String(i) + ": " + String(pwm_val[i]));
-        Serial.print("\n");
-    }
-
-
-    void attach(uint8_t pin, uint8_t no_of_channels){
-        attach_ppm(pin, no_of_channels);
+        for(uint8_t i= 1 ; i <= number_of_channels ; i++) Serial.print("\tch" + String(i) + ": " + String(channel(i)));
+        //Serial.print("\n");
     }
 
 }ppm;
