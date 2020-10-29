@@ -40,6 +40,7 @@ void attach_ppm(uint8_t pin, uint8_t channels){
     pinMode(ppm_pin, INPUT);
     attachPinChangeInterrupt(ppm_pin, ppm_isr, FALLING);
     pwm_val = new volatile uint16_t[++channels];
+    for(int i=0; i<=++channels; i++) pwm_val[i] = 1500;
 }
 
 
