@@ -2,7 +2,6 @@
 #ifndef motors_h
 #define motors_h
 
-#define deadband 10
 
 class Motor{
 private:
@@ -28,12 +27,12 @@ public:
     void turn(uint16_t pwm){
         int16_t velocity = map(pwm, 1000, 2000, -255, 255);
 
-        if(velocity > deadband){
+        if(velocity > MOTOR_DEADBAND){
             digitalWrite(dir1_pin, LOW);
             digitalWrite(dir2_pin, HIGH);
             analogWrite(pwm_pin, velocity);
         }
-        else if(velocity < -deadband){
+        else if(velocity < -MOTOR_DEADBAND){
             digitalWrite(dir1_pin, HIGH);
             digitalWrite(dir2_pin, LOW);
             analogWrite(pwm_pin, abs(velocity));

@@ -1,6 +1,7 @@
 
 #include <Arduino.h>
 #include <Servo.h>
+#include "Config.h"
 #include "mixer.h"
 #include "receiver.h"
 #include "motor.h"
@@ -11,8 +12,8 @@ Motor left, right;
 Servo arm_servo, bucket_servo;
 
 void setup() {
-    left.attach(3, 2, 4);
-    right.attach(5, 7, 8);
+    left.attach(LEFT_MOTOR_PWM_PIN, LEFT_MOTOR_DIR_1_PIN, LEFT_MOTOR_DIR_2_PIN);
+    right.attach(RIGHT_MOTOR_PWM_PIN, RIGHT_MOTOR_DIR_1_PIN, RIGHT_MOTOR_DIR_2_PIN);
     ppm.attach(11, 8);
     arm_servo.attach(10);
     lights.begin();
@@ -30,6 +31,5 @@ void loop() {
 
     arm_servo.writeMicroseconds(mix.reverse( ppm.channel(3) ));
 
-    if(ppm.channel(5) > 1500) turn_lights_on();
-    else turn_lights_off();
+    switch_lights_on();
 }
