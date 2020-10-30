@@ -60,7 +60,7 @@ public:
 
     void print_val(){
         for(uint8_t i= 1 ; i <= number_of_channels ; i++) Serial.print("\tch" + String(i) + ": " + String(channel(i)));
-        //Serial.print("\n");
+        Serial.print("\n");
     }
 
 }ppm;
