@@ -14,13 +14,12 @@ Servo arm_servo, bucket_servo;
 void setup() {
     left.attach(LEFT_MOTOR_PWM_PIN, LEFT_MOTOR_DIR_1_PIN, LEFT_MOTOR_DIR_2_PIN);
     right.attach(RIGHT_MOTOR_PWM_PIN, RIGHT_MOTOR_DIR_1_PIN, RIGHT_MOTOR_DIR_2_PIN);
-    ppm.attach(11, 8);
+    ppm.attach(PPM_PIN, PPM_NUMBER_OF_CHANNELS);
     arm_servo.attach(10);
     lights.begin();
     lights.show();
     Serial.begin(57600);
 }
-
 
 
 void loop() {
